@@ -21,7 +21,7 @@ export default function Navbar() {
 
   return (
     <header className="relative">
-      <nav className={`sticky top-0 z-50 w-full flex items-center justify-between px-8.5 py-4 md:grid md:grid-cols-[100px_1fr_100px]
+      <nav className={`fixed top-0 z-50 w-full flex items-center justify-between px-8.5 py-4 md:grid md:grid-cols-[100px_1fr_100px]
                        ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
         <Link 
           href="/"
