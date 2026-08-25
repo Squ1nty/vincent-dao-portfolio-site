@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { motion } from  "framer-motion";
 import { HomeIcon, ProjectIcon, AboutIcon, ContactIcon } from './Icons'
 
 const links = [
@@ -13,12 +15,13 @@ const links = [
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <header className="relative">
-      <nav className="flex items-center justify-between px-8.5 py-4">
-        <Link href="/" className="text-sm font-medium tracking-tight">
-          <img className='h-7 active:scale-120 transition-all duration-300' src='/gundam8BitHead.png' alt="Gundam Head PNG"></img>
+      <nav className="flex items-center justify-between px-8.5 py-4 md:grid md:grid-cols-[100px_1fr_100px] ">
+        <Link href="/">
+          <img className='h-7 active:scale-120 hover:scale-105 transition-all duration-300 md:h-9' src='/gundam8BitHead.png' alt="Gundam Head PNG"></img>
         </Link>
 
         <button
@@ -45,14 +48,30 @@ export default function Navbar() {
         </button>
 
         {/* Desktop nav */}
-        <ul className="hidden gap-6 text-sm md:flex">
-          {links.map((link) => (
-            <li key={link.href}>
-              <Link href={link.href} className="hover:text-muted">
-                {link.label}
-              </Link>
-            </li>
-          ))}
+        <ul className="hidden w-fit items-center justify-center justify-self-center gap-2 rounded-lg bg-[var(--desktopNavBg)] py-1.5 px-1.5 text-sm md:flex">
+          {links.map((link) => {
+            const isActive = pathname === link.href;
+
+            return (
+              <li key={link.href} className="relative">
+                <Link
+                  href={link.href}
+                  className={`relative z-10 block px-3 py-2 text-[var(--base-text)]
+                              ${isActive ? 'hover:text-[var(--base-text)]' : 'hover:text-[var(--text-muted)]'}`}
+                >
+                  {link.label}
+                </Link>
+
+                {isActive && (
+                  <motion.div
+                    layoutId="active-nav-bg"
+                    className="absolute inset-0 rounded-md bg-[var(--desktopCurrentLink)]"
+                    transition={{ type: "spring", stiffness: 380, bounce: 0.25 }}
+                  />
+                )}
+              </li>
+            );
+          })}
         </ul>
       </nav>
 
@@ -67,7 +86,7 @@ export default function Navbar() {
             key={href}
             href={href}
             onClick={() => setIsOpen(false)}
-            className="w-full flex gap-4 p-3 rounded-2xl hover:bg-[var(--hover)] hover:w-[97%] active:bg-[var(--hover)] transition-all duration-200 ease-out"
+            className="w-full flex gap-4 p-3 rounded-2xl text-[(--base-text)] hover:bg-[var(--hover)] hover:w-[97%] active:bg-[var(--hover)] transition-all duration-200 ease-out"
           >
             <Icon className='h-6 w-6' />
             <p>{label}</p>
