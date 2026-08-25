@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from  "framer-motion";
 import { HomeIcon, ProjectIcon, AboutIcon, ContactIcon } from './Icons'
+import { useScrollDirection } from "@/hooks/useScrollDirections";
 
 const links = [
   { href: "/", label: "Home", Icon: HomeIcon, alt: "Home Icon PNG" },
@@ -16,11 +17,20 @@ const links = [
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  const isVisible = useScrollDirection();
 
   return (
     <header className="relative">
-      <nav className="flex items-center justify-between px-8.5 py-4 md:grid md:grid-cols-[100px_1fr_100px] ">
-        <Link href="/">
+      <nav className={`sticky top-0 z-50 w-full flex items-center justify-between px-8.5 py-4 md:grid md:grid-cols-[100px_1fr_100px]
+                       ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+        <Link 
+          href="/"
+          onClick={(e) => {
+            if (window.location.pathname === "/") {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+          }}>
           <img className='h-7 active:scale-120 hover:scale-105 transition-all duration-300 md:h-9' src='/gundam8BitHead.png' alt="Gundam Head PNG"></img>
         </Link>
 
@@ -85,10 +95,16 @@ export default function Navbar() {
           <Link
             key={href}
             href={href}
-            onClick={() => setIsOpen(false)}
+            onClick={(e) => {
+              if (href === "/" && window.location.pathname === "/") {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
+              setIsOpen(false);
+            }}
             className="w-full flex gap-4 p-3 rounded-2xl text-[(--base-text)] hover:bg-[var(--hover)] hover:w-[97%] active:bg-[var(--hover)] transition-all duration-200 ease-out"
           >
-            <Icon className='h-6 w-6' />
+            <Icon className="h-6 w-6" />
             <p>{label}</p>
           </Link>
         ))}
