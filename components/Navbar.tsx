@@ -58,7 +58,7 @@ export default function Navbar() {
 
       {/* Mobile menu overlay */}
       <div
-        className={`fixed inset-0 top-[57px] z-40 flex flex-col gap-6 bg-background px-6 py-10 text-lg transition-transform duration-600 md:hidden ${
+        className={`fixed inset-0 top-[57px] z-40 flex flex-col items-end gap-6 bg-background px-6 py-10 text-lg transition-transform duration-600 md:hidden ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -67,7 +67,7 @@ export default function Navbar() {
             key={href}
             href={href}
             onClick={() => setIsOpen(false)}
-            className="flex gap-4 p-3 rounded-2xl active:bg-[var(--hover)]"
+            className="w-full flex gap-4 p-3 rounded-2xl hover:bg-[var(--hover)] hover:w-[97%] active:bg-[var(--hover)] transition-all duration-200 ease-out"
           >
             <Icon className='h-6 w-6' />
             <p>{label}</p>
