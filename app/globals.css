@@ -3,6 +3,8 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --hover: #4c4b4b;
+  --mobileNavIconFillColor: #171717;
 }
 
 @theme inline {
@@ -14,6 +16,14 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --hover: #4c4b4b;
+    --mobileNavIconFillColor: #ededed;
+
+    --desktopNavBg: rgb(46, 46, 46) ;
+    --desktopCurrentLink: rgb(83, 83, 83);
+
+    --base-text: #EDEDED;
+    --text-muted: #bbbbbb;
   }
 }
 
