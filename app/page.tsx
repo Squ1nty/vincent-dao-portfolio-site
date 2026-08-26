@@ -1,13 +1,18 @@
 import LandingPageNameCard from "@/components/LandingPageNameCard";
+import Projects from "@/components/Projects";
 import Navbar from "@/components/Navbar";
 
 export default function Home() {
   return (
-    <main className='h-svh'>
+    <main>
       <Navbar />
-      <div className='h-full px-3'>
+      <section id="home" className="h-svh px-3">
         <LandingPageNameCard />
-      </div>
+      </section>
+
+      <section id="projects">
+        <Projects />
+      </section>
     </main>
   );
 }
