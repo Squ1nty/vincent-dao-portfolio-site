@@ -38,7 +38,7 @@ export default function Navbar() {
           onClick={() => setIsOpen((prev) => !prev)}
           aria-label="Toggle menu"
           aria-expanded={isOpen}
-          className="relative z-50 flex h-8 w-8 flex-col items-center justify-center gap-1.5 cursor-pointer md:hidden"
+          className="relative z-50 flex h-8 w-8 flex-col items-center justify-center gap-1.5 cursor-pointer hover:scale-105 active:scale-120 md:hidden"
         >
           <span
             className={`h-0.5 w-6 bg-foreground transition-transform duration-300 ${
