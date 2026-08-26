@@ -5,6 +5,14 @@
   --foreground: #171717;
   --hover: #4c4b4b;
   --mobileNavIconFillColor: #171717;
+
+  --desktopNavBg: rgb(230, 230, 230);
+  --desktopCurrentLink: rgb(210, 210, 210);
+
+  --base-text: #171717;
+  --text-muted: #666666;
+
+  --card-bg: #f5f5f5;
 }
 
 @theme inline {
@@ -19,11 +27,13 @@
     --hover: #4c4b4b;
     --mobileNavIconFillColor: #ededed;
 
-    --desktopNavBg: rgb(46, 46, 46) ;
+    --desktopNavBg: rgb(46, 46, 46);
     --desktopCurrentLink: rgb(83, 83, 83);
 
-    --base-text: #EDEDED;
+    --base-text: #ededed;
     --text-muted: #bbbbbb;
+
+    --card-bg: #1e1e1e;
   }
 }
 
