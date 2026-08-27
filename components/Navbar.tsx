@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from  "framer-motion";
@@ -18,6 +18,18 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const isVisible = useScrollDirection();
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
 
   return (
     <header className="relative">
@@ -87,7 +99,7 @@ export default function Navbar() {
 
       {/* Mobile menu overlay */}
       <div
-        className={`fixed inset-0 top-[57px] z-40 flex flex-col items-end gap-6 bg-background px-6 py-10 text-lg transition-transform duration-600 md:hidden ${
+        className={`fixed inset-0 top-[57px] z-50 flex flex-col items-end gap-6 bg-background px-6 py-10 text-lg transition-transform duration-600 md:hidden ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
