@@ -15,7 +15,7 @@ function formatRepoName(name: string): string {
   return name
     .split("-")
     .filter(Boolean)
-    .slice(0, 5)
+    .slice(0, 3)
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
 }
@@ -90,10 +90,10 @@ export default function ProjectStack({ repos }: { repos: Repo[] }) {
           }}
           data-index={index}
           id={`project-${index}`}
-          className="flex min-h-svh w-full items-center pl-[20%] md:pl-[10%] pr-3"
+          className="flex min-h-svh w-full bg-gray-600 border-white border pl-[15%] md:pl-[10%] pr-3"
         >
-          <div className="max-w-2xl">
-            <h2 className="text-4xl font-bold">{formatRepoName(repo.name)}</h2>
+          <div className="w-full py-4">
+            <h2 className="text-md font-bold">{formatRepoName(repo.name)}</h2>
           </div>
         </section>
       ))}
