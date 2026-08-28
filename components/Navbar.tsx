@@ -8,16 +8,24 @@ import { HomeIcon, ProjectIcon, AboutIcon, ContactIcon } from './Icons'
 import { useScrollDirection } from "@/hooks/useScrollDirections";
 
 const links = [
-  { href: "/", label: "Home", Icon: HomeIcon, alt: "Home Icon PNG" },
-  { href: "/projects", label: "Projects", Icon: ProjectIcon, alt: "Projects Icon PNG" },
-  { href: "/about", label: "About", Icon: AboutIcon, alt: "About Icon PNG" },
-  { href: "/contact", label: "Contact", Icon: ContactIcon, alt: "Contact Icon PNG" },
+  { href: "#home", label: "Home", Icon: HomeIcon, alt: "Home Icon PNG" },
+  { href: "#projects", label: "Projects", Icon: ProjectIcon, alt: "Projects Icon PNG" },
+  { href: "#about", label: "About", Icon: AboutIcon, alt: "About Icon PNG" },
+  { href: "#contact", label: "Contact", Icon: ContactIcon, alt: "Contact Icon PNG" },
 ];
+
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const isVisible = useScrollDirection();
+
+  const handleNavClick = (e: React.MouseEvent, href: string) => {
+    e.preventDefault();
+    const target = document.querySelector(href); // href is like "#projects"
+    target?.scrollIntoView({ behavior: "smooth" });
+    setIsOpen(false); // closes mobile menu if open, harmless on desktop
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -78,6 +86,7 @@ export default function Navbar() {
               <li key={link.href} className="relative">
                 <Link
                   href={link.href}
+                  onClick={(e) => handleNavClick(e, link.href)}
                   className={`relative z-10 block px-3 py-2 text-[var(--base-text)]
                               ${isActive ? 'hover:text-[var(--base-text)]' : 'hover:text-[var(--text-muted)]'}`}
                 >
@@ -107,13 +116,7 @@ export default function Navbar() {
           <Link
             key={href}
             href={href}
-            onClick={(e) => {
-              if (href === "/" && window.location.pathname === "/") {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }
-              setIsOpen(false);
-            }}
+            onClick={(e) => handleNavClick(e, href)}
             className="w-full flex gap-4 p-3 rounded-2xl text-[(--base-text)] hover:bg-[var(--hover)] hover:w-[97%] active:bg-[var(--hover)] transition-all duration-200 ease-out"
           >
             <Icon className="h-6 w-6" />
