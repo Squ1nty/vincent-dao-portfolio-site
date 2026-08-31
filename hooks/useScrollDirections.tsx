@@ -1,6 +1,5 @@
-"use client";
-
 import { useState, useEffect, useRef } from "react";
+import { getProgrammaticScroll } from "@/lib/scrollFlag";
 
 export function useScrollDirection() {
   const [isVisible, setIsVisible] = useState(true);
@@ -8,16 +7,15 @@ export function useScrollDirection() {
 
   useEffect(() => {
     const handleScroll = () => {
+      if (getProgrammaticScroll()) return; // ignore scroll caused by tab clicks
+
       const currentScrollY = window.scrollY;
 
-      // Always show near the top of the page
       if (currentScrollY < 50) {
         setIsVisible(true);
       } else if (currentScrollY > lastScrollY.current) {
-        // scrolling down
         setIsVisible(false);
       } else {
-        // scrolling up
         setIsVisible(true);
       }
 
