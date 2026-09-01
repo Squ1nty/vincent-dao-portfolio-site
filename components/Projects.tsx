@@ -4,6 +4,7 @@ type Repo = {
   name: string;
   description: string | null;
   url: string;
+  homepageUrl: string;
   stargazerCount: number;
   primaryLanguage: { name: string } | null;
 };
@@ -25,6 +26,7 @@ async function getPinnedRepos(): Promise<Repo[]> {
                   name
                   description
                   url
+                  homepageUrl
                   stargazerCount
                   primaryLanguage { name }
                 }
