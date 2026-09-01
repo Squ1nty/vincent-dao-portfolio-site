@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, type Variants } from "framer-motion";
 import TechStackItem from "./TechStackItem";
+import ProjectLinks from "./ProjectLinks";
 
 const listVariants: Variants = {
   hidden: {},
@@ -25,6 +26,7 @@ type Repo = {
   name: string;
   description: string | null;
   url: string;
+  homepageUrl: string;
   stargazerCount: number;
   primaryLanguage: { name: string } | null;
 };
@@ -143,6 +145,7 @@ export default function ProjectStack({ repos }: { repos: Repo[] }) {
                   ))}
                 </motion.ul>
               )}
+              <ProjectLinks repoUrl={repo.url} liveUrl={repo.homepageUrl} />
             </div>
           </section>
         );
