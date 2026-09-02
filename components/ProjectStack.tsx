@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, type Variants } from "framer-motion";
 import TechStackItem from "./TechStackItem";
 import ProjectLinks from "./ProjectLinks";
+import { setProgrammaticScroll } from "@/lib/scrollFlag";
 
 const listVariants: Variants = {
   hidden: {},
@@ -18,7 +19,7 @@ const tagVariants: Variants = {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { staggerChildren: 0.06 }, // staggers icon → label inside each tag
+    transition: { staggerChildren: 0.06 },
   },
 };
 
@@ -49,7 +50,7 @@ const stackOverrides: Record<string, string[]> = {
   "space-tourism-website": ["Javascript", "SASS", "CUBECSS"],
 };
 
-const INACTIVITY_DELAY = 2000; // ms before rail retracts
+const INACTIVITY_DELAY = 2000;
 
 export default function ProjectStack({ repos }: { repos: Repo[] }) {
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
@@ -57,6 +58,7 @@ export default function ProjectStack({ repos }: { repos: Repo[] }) {
   const [isRailExpanded, setIsRailExpanded] = useState(true);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const inactivityTimeoutRef = useRef<number | null>(null);
+  const scrollTimeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -65,10 +67,8 @@ export default function ProjectStack({ repos }: { repos: Repo[] }) {
           const idx = Number(entry.target.getAttribute("data-index"));
 
           if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
-            // scrolled past it (downward) — show its tab
             setPassedIndices((prev) => new Set(prev).add(idx));
           } else if (entry.isIntersecting) {
-            // back in view — retract its tab
             setPassedIndices((prev) => {
               const next = new Set(prev);
               next.delete(idx);
@@ -87,7 +87,6 @@ export default function ProjectStack({ repos }: { repos: Repo[] }) {
     return () => observer.disconnect();
   }, [repos.length]);
 
-  // Auto-expand rail on scroll activity, retract after inactivity
   useEffect(() => {
     const resetInactivityTimer = () => {
       setIsRailExpanded(true);
@@ -101,7 +100,7 @@ export default function ProjectStack({ repos }: { repos: Repo[] }) {
       }, INACTIVITY_DELAY);
     };
 
-    resetInactivityTimer(); // start the timer on mount
+    resetInactivityTimer();
 
     window.addEventListener("scroll", resetInactivityTimer, { passive: true });
 
@@ -114,18 +113,22 @@ export default function ProjectStack({ repos }: { repos: Repo[] }) {
   }, []);
 
   const scrollToSection = (index: number) => {
+    setProgrammaticScroll(true);
     sectionRefs.current[index]?.scrollIntoView({ behavior: "smooth" });
+
+    if (scrollTimeoutRef.current) window.clearTimeout(scrollTimeoutRef.current);
+    scrollTimeoutRef.current = window.setTimeout(() => {
+      setProgrammaticScroll(false);
+    }, 1000);
   };
 
   return (
     <div className="relative">
-      {/* Side tab rail — fixed to viewport, builds up as you scroll */}
       <div className="fixed left-0 top-1/2 z-40 flex -translate-y-1/2 flex-col gap-2">
         <AnimatePresence>
           {repos.map((repo, index) => {
             if (!passedIndices.has(index)) return null;
 
-            // Open if the whole rail is expanded, or this specific tab is hovered
             const isOpen = isRailExpanded || hoveredIndex === index;
 
             return (
@@ -151,7 +154,6 @@ export default function ProjectStack({ repos }: { repos: Repo[] }) {
         </AnimatePresence>
       </div>
 
-      {/* Full-width project sections, offset from the left gutter */}
       {repos.map((repo, index) => {
         const stack = stackOverrides[repo.name] ?? [];
         return (
@@ -162,10 +164,10 @@ export default function ProjectStack({ repos }: { repos: Repo[] }) {
             }}
             data-index={index}
             id={`project-${index}`}
-            className="flex flex-col min-h-svh w-full border-white border"
+            className="flex flex-col min-h-svh w-full bg-gray-600 border-white border"
           >
             <div className="w-full pt-4 text-center">
-              <h2 className="text-lg font-bold">{formatRepoName(repo.name)}</h2>
+              <h2 className="text-xl font-bold">{formatRepoName(repo.name)}</h2>
             </div>
             <div className="w-full flex flex-col items-center gap-2 text-center">
               {repo.description && (
