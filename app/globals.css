@@ -13,6 +13,8 @@
   --text-muted: #666666;
 
   --card-bg: #f5f5f5;
+
+  --next-icon-bg: transparent;
 }
 
 @theme inline {
@@ -34,6 +36,8 @@
     --text-muted: #bbbbbb;
 
     --card-bg: #1e1e1e;
+
+    --next-icon-bg: #ffffff;
   }
 }
 

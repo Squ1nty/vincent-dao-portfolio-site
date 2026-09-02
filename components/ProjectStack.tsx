@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, type Variants } from "framer-motion";
 import TechStackItem from "./TechStackItem";
+import ProjectLinks from "./ProjectLinks";
 
 const listVariants: Variants = {
   hidden: {},
@@ -25,6 +26,7 @@ type Repo = {
   name: string;
   description: string | null;
   url: string;
+  homepageUrl: string | null;
   stargazerCount: number;
   primaryLanguage: { name: string } | null;
 };
@@ -47,9 +49,14 @@ const stackOverrides: Record<string, string[]> = {
   "space-tourism-website": ["Javascript", "SASS", "CUBECSS"],
 };
 
+const INACTIVITY_DELAY = 2000; // ms before rail retracts
+
 export default function ProjectStack({ repos }: { repos: Repo[] }) {
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
   const [passedIndices, setPassedIndices] = useState<Set<number>>(new Set());
+  const [isRailExpanded, setIsRailExpanded] = useState(true);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const inactivityTimeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -80,6 +87,32 @@ export default function ProjectStack({ repos }: { repos: Repo[] }) {
     return () => observer.disconnect();
   }, [repos.length]);
 
+  // Auto-expand rail on scroll activity, retract after inactivity
+  useEffect(() => {
+    const resetInactivityTimer = () => {
+      setIsRailExpanded(true);
+
+      if (inactivityTimeoutRef.current) {
+        window.clearTimeout(inactivityTimeoutRef.current);
+      }
+
+      inactivityTimeoutRef.current = window.setTimeout(() => {
+        setIsRailExpanded(false);
+      }, INACTIVITY_DELAY);
+    };
+
+    resetInactivityTimer(); // start the timer on mount
+
+    window.addEventListener("scroll", resetInactivityTimer, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", resetInactivityTimer);
+      if (inactivityTimeoutRef.current) {
+        window.clearTimeout(inactivityTimeoutRef.current);
+      }
+    };
+  }, []);
+
   const scrollToSection = (index: number) => {
     sectionRefs.current[index]?.scrollIntoView({ behavior: "smooth" });
   };
@@ -89,13 +122,23 @@ export default function ProjectStack({ repos }: { repos: Repo[] }) {
       {/* Side tab rail — fixed to viewport, builds up as you scroll */}
       <div className="fixed left-0 top-1/2 z-40 flex -translate-y-1/2 flex-col gap-2">
         <AnimatePresence>
-          {repos.map((repo, index) =>
-            passedIndices.has(index) ? (
+          {repos.map((repo, index) => {
+            if (!passedIndices.has(index)) return null;
+
+            // Open if the whole rail is expanded, or this specific tab is hovered
+            const isOpen = isRailExpanded || hoveredIndex === index;
+
+            return (
               <motion.button
                 key={repo.name}
                 onClick={() => scrollToSection(index)}
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(null)}
                 initial={{ x: "-100%", opacity: 0 }}
-                animate={{ x: 0, opacity: 0.85 }}
+                animate={{
+                  x: isOpen ? 0 : "-70%",
+                  opacity: isOpen ? 0.85 : 0.5,
+                }}
                 exit={{ x: "-100%", opacity: 0 }}
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 className="cursor-pointer rounded-r-lg bg-[var(--desktopNavBg)] px-2 py-4 text-xs font-medium tracking-wide"
@@ -103,15 +146,15 @@ export default function ProjectStack({ repos }: { repos: Repo[] }) {
               >
                 {formatRepoName(repo.name)}
               </motion.button>
-            ) : null
-          )}
+            );
+          })}
         </AnimatePresence>
       </div>
 
       {/* Full-width project sections, offset from the left gutter */}
       {repos.map((repo, index) => {
         const stack = stackOverrides[repo.name] ?? [];
-        return(
+        return (
           <section
             key={repo.name}
             ref={(el) => {
@@ -119,14 +162,14 @@ export default function ProjectStack({ repos }: { repos: Repo[] }) {
             }}
             data-index={index}
             id={`project-${index}`}
-            className="flex flex-col min-h-svh w-full bg-gray-600 border-white border"
+            className="flex flex-col min-h-svh w-full border-white border"
           >
             <div className="w-full pt-4 text-center">
               <h2 className="text-lg font-bold">{formatRepoName(repo.name)}</h2>
             </div>
-            <div className='w-full flex flex-col items-center gap-2 text-center'>
+            <div className="w-full flex flex-col items-center gap-2 text-center">
               {repo.description && (
-                <p className='text-xs'>{repo.description}</p>
+                <p className="text-xs">{repo.description}</p>
               )}
               {stack.length > 0 && (
                 <motion.ul
@@ -143,6 +186,7 @@ export default function ProjectStack({ repos }: { repos: Repo[] }) {
                   ))}
                 </motion.ul>
               )}
+              <ProjectLinks repoUrl={repo.url} liveUrl={repo.homepageUrl} />
             </div>
           </section>
         );
