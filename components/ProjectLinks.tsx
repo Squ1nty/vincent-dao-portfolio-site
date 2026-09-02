@@ -49,7 +49,7 @@ export default function ProjectLinks({ repoUrl, liveUrl }: ProjectLinksProps) {
       <motion.div
         initial={{ x: 80, opacity: 0 }}
         whileInView={{ x: 0, opacity: 1 }}
-        viewport={{ once: false, amount: 0.8 }}
+        viewport={{ once: false, amount: 0.3 }}
         transition={{ type: "spring", stiffness: 260, damping: 18 }}
         className={`${!hasRepo ? "flex" : null}`}
       >
