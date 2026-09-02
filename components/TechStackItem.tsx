@@ -56,7 +56,7 @@ export default function TechStackItem({ name }: { name: string }) {
       variants={wrapperVariants}
       whileHover={{ y: -3, scale: 1.05 }}
       transition={{ type: "spring", stiffness: 400, damping: 15 }}
-      className="flex items-center gap-2 px-2.5 py-1 text-xs text-muted cursor-pointer"
+      className="flex items-center gap-2 px-2.5 py-1 text-xs text-white cursor-pointer"
     >
       {Icon && (
         <motion.span variants={iconVariants} className="flex">
