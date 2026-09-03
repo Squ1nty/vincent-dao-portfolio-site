@@ -5,6 +5,7 @@ import { AnimatePresence, motion, type Variants } from "framer-motion";
 import TechStackItem from "./TechStackItem";
 import ProjectLinks from "./ProjectLinks";
 import { setProgrammaticScroll } from "@/lib/scrollFlag";
+import ProjectImage from "./ProjectImage"
 
 const listVariants: Variants = {
   hidden: {},
@@ -189,6 +190,7 @@ export default function ProjectStack({ repos }: { repos: Repo[] }) {
                 </motion.ul>
               )}
               <ProjectLinks repoUrl={repo.url} liveUrl={repo.homepageUrl} />
+              <ProjectImage repoName={repo.name} formattedName={formatRepoName(repo.name)} />
             </div>
           </section>
         );
