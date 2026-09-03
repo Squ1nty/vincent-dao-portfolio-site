@@ -7,9 +7,12 @@ export function useScrollDirection() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (getProgrammaticScroll()) return; // ignore scroll caused by tab clicks
-
       const currentScrollY = window.scrollY;
+
+      if (getProgrammaticScroll()) {
+        lastScrollY.current = currentScrollY; // keep tracking position, just skip visibility logic
+        return;
+      }
 
       if (currentScrollY < 50) {
         setIsVisible(true);
