@@ -164,12 +164,12 @@ export default function ProjectStack({ repos }: { repos: Repo[] }) {
             }}
             data-index={index}
             id={`project-${index}`}
-            className="flex flex-col min-h-svh w-full bg-gray-600 border-white border"
+            className="flex flex-col min-h-svh w-full px-4 border-white border"
           >
-            <div className="w-full pt-4 text-center">
-              <h2 className="text-xl font-bold">{formatRepoName(repo.name)}</h2>
+            <div className="w-full pt-4 pb-2 text-center">
+              <h2 className="text-2xl font-bold">{formatRepoName(repo.name)}</h2>
             </div>
-            <div className="w-full flex flex-col items-center gap-2 text-center">
+            <div className="w-full flex flex-col items-center gap-2 text-center text-[var(--text-muted)]">
               {repo.description && (
                 <p className="text-xs">{repo.description}</p>
               )}

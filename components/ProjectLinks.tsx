@@ -58,7 +58,7 @@ export default function ProjectLinks({ repoUrl, liveUrl }: ProjectLinksProps) {
             href={repoUrl!}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm font-medium transition-all hover:bg-black/5 hover:scale-105"
+            className="flex items-center justify-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm text-white font-medium transition-all hover:bg-black/5 hover:scale-105"
           >
             <RepoIcon className="h-4 w-4" />
             Repository

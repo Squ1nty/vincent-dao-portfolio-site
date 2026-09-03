@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect, useRef } from "react";
 import { getProgrammaticScroll } from "@/lib/scrollFlag";
 
@@ -9,7 +7,7 @@ export function useScrollDirection() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (getProgrammaticScroll()) return; // ignore scrolls triggered by tab clicks
+      if (getProgrammaticScroll()) return; // ignore scroll caused by tab clicks
 
       const currentScrollY = window.scrollY;
 
