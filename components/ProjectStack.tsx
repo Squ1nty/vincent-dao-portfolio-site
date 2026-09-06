@@ -33,12 +33,24 @@ type Repo = {
   primaryLanguage: { name: string } | null;
 };
 
+const ACRONYM_OVERRIDES: Record<string, string> = {
+  api: "API",
+  ui: "UI",
+  css: "CSS",
+  html: "HTML",
+  sql: "SQL",
+  aws: "AWS",
+};
+
 function formatRepoName(name: string): string {
   return name
     .split("-")
     .filter(Boolean)
     .slice(0, 3)
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .map((word) => {
+      const lower = word.toLowerCase();
+      return ACRONYM_OVERRIDES[lower] ?? word.charAt(0).toUpperCase() + word.slice(1);
+    })
     .join(" ");
 }
 
