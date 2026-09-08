@@ -40,7 +40,6 @@ async function getPinnedRepos(): Promise<Repo[]> {
   });
 
   const json = await res.json();
-  console.log("GitHub response:", JSON.stringify(json, null, 2));
   return json.data?.user?.pinnedItems?.nodes ?? [];
 }
 
