@@ -202,7 +202,7 @@ export default function ProjectStack({ repos }: { repos: Repo[] }) {
                 </motion.ul>
               )}
               <ProjectLinks repoUrl={repo.url} liveUrl={repo.homepageUrl} />
-              <ProjectImage repoName={repo.name} formattedName={formatRepoName(repo.name)} />
+              <ProjectImage repoName={repo.name} formattedName={formatRepoName(repo.name)} liveUrl={repo.homepageUrl} />
             </div>
           </section>
         );
