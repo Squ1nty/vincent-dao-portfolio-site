@@ -21,8 +21,8 @@ export default function Bio() {
   const heyThereText = "Hey there!".split("");
 
   return (
-    <div className="mx-auto flex max-w-2xl flex-col gap-6 px-4 py-24">
-      <div className="flex flex-col gap-2">
+    <div className="flex max-w-2xl flex-col gap-6 p-4">
+      <div className="flex flex-col text-center">
         <motion.p
           className="text-2xl font-semibold"
           variants={containerVariants}
@@ -36,14 +36,22 @@ export default function Bio() {
             </motion.span>
           ))}
         </motion.p>
+        <p className=''>
+          Glad to see you&apos;re checking out the portfolio 😄
+        </p>
       </div>
-
-      <p className="flex flex-col gap-2 self-end w-1/2">
-        
-      </p>
-
-
-
+      <div className='mt-4 flex flex-col gap-4 text-center'>
+        <p>
+          The portfolio below is a journey through my development career, 
+          where at first I started as a Frontend-focused developer; later 
+          developing my skills into a Full-Stack Developer!
+        </p>
+        <p>
+          I aim to bring with me a client-focused mind, where paired 
+          with my strong attention to detail and work ethic; I aim to hit 
+          the ground running anywhere I go!
+        </p>
+      </div>
     </div>
   );
 }
