@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
 :root {
+  color: var(--base-text);
+
   --background: #ffffff;
   --foreground: #171717;
   --hover: #4c4b4b;

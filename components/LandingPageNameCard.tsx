@@ -54,7 +54,13 @@ export default function NameCard() {
         DAO
       </motion.h1>
 
-      {/* Add portrait image behind */}
+        {/* Add portrait image behind */}
+      </div>
+      <div className="w-full px-4">
+        <p className='text-center text-sm text-[var(--text-muted)]'>
+          A Full-Stack Developer specialising in creating interactive and modern web experiences!
+        </p>
+      </div>
     </div>
   );
 }
