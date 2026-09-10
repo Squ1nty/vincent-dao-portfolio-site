@@ -51,6 +51,9 @@ export default function Bio() {
           with my strong attention to detail and work ethic; I aim to hit 
           the ground running anywhere I go!
         </p>
+        <p>
+          Anyways, less from me, enjoy the journey!
+        </p>
       </div>
     </div>
   );
