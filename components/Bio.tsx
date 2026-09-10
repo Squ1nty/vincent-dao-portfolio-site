@@ -22,7 +22,7 @@ export default function Bio() {
 
   return (
     <div className="flex max-w-2xl flex-col gap-6 p-4">
-      <div className="flex flex-col text-center">
+      <div className="w-full flex flex-col text-center">
         <motion.p
           className="text-2xl font-semibold"
           variants={containerVariants}
